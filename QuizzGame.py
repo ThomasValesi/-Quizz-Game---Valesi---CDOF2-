@@ -12,7 +12,9 @@ def quiz_game():
         {"question": "What is 5 + 7?", "answer": "12"},
     ]
 
-    score = 0  # Initialisation du score
+    score = 0  # Score total
+    bonus_points = 0  # Points bonus cumulés
+    correct_streak = 0  # Série de bonnes réponses consécutives
     time_limit = 10  # Temps limite en secondes par question
 
     for idx, q in enumerate(questions, 1):
@@ -26,19 +28,32 @@ def quiz_game():
             elapsed_time = time.time() - start_time  # Temps écoulé
             if elapsed_time > time_limit:
                 print("Time's up! You didn't answer in time.\n")
-                break  # Temps écoulé, on sort de la boucle
+                break
             if user_answer:  # Une réponse a été donnée
                 break
 
         if elapsed_time <= time_limit and user_answer == q['answer']:
             print("Correct!\n")
             score += 1
-        elif elapsed_time <= time_limit:
-            print(f"Wrong! The correct answer was: {q['answer']}\n")
+            correct_streak += 1  # Incrémenter la série de bonnes réponses
+            
+            # Ajouter des points bonus en fonction de la série
+            if correct_streak > 1:  # Bonus seulement pour au moins 2 bonnes réponses consécutives
+                streak_bonus = correct_streak - 1
+                bonus_points += streak_bonus
+                print(f"Bonus! You've earned {streak_bonus} extra points for a streak of {correct_streak} correct answers!\n")
+        else:
+            if elapsed_time <= time_limit:
+                print(f"Wrong! The correct answer was: {q['answer']}\n")
+            correct_streak = 0  # Réinitialiser la série en cas de mauvaise réponse ou de dépassement de temps
 
     # Résultat final
-    print(f"You finished the quiz! Your final score is: {score}/{len(questions)}")
-    
+    total_score = score + bonus_points
+    print(f"You finished the quiz!")
+    print(f"Base score: {score}")
+    print(f"Bonus points: {bonus_points}")
+    print(f"Total score: {total_score}/{len(questions) + bonus_points}")
+
     if score == len(questions):
         print("Congratulations! You answered all questions correctly!")
     elif score > 0:
