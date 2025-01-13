@@ -1,3 +1,5 @@
+import time
+
 def quiz_game():
     print("Welcome to the Quiz Game!\n")
 
@@ -11,15 +13,27 @@ def quiz_game():
     ]
 
     score = 0  # Initialisation du score
+    time_limit = 10  # Temps limite en secondes par question
 
     for idx, q in enumerate(questions, 1):
-        print(f"Question {idx}: {q['question']}")
-        user_answer = input("Your answer: ").strip().lower()
-        
-        if user_answer == q['answer']:
+        print(f"Question {idx}: {q['question']} (You have {time_limit} seconds to answer)")
+
+        start_time = time.time()  # Enregistre l'heure de début
+        user_answer = None
+
+        while True:
+            user_answer = input("Your answer: ").strip().lower()
+            elapsed_time = time.time() - start_time  # Temps écoulé
+            if elapsed_time > time_limit:
+                print("Time's up! You didn't answer in time.\n")
+                break  # Temps écoulé, on sort de la boucle
+            if user_answer:  # Une réponse a été donnée
+                break
+
+        if elapsed_time <= time_limit and user_answer == q['answer']:
             print("Correct!\n")
             score += 1
-        else:
+        elif elapsed_time <= time_limit:
             print(f"Wrong! The correct answer was: {q['answer']}\n")
 
     # Résultat final
