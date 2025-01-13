@@ -1,7 +1,8 @@
 import time
+from colorama import Fore, Style
 
 def quiz_game():
-    print("Welcome to the Quiz Game!\n")
+    print(Fore.BLUE + "Welcome to the Quiz Game!\n" + Style.RESET_ALL)
 
     # Liste des questions et réponses
     questions = [
@@ -16,7 +17,7 @@ def quiz_game():
     time_limit = 10  # Temps limite en secondes par question
 
     for idx, q in enumerate(questions, 1):
-        print(f"Question {idx}: {q['question']} (You have {time_limit} seconds to answer)")
+        print(Fore.CYAN + f"Question {idx}: {q['question']} (You have {time_limit} seconds to answer)" + Style.RESET_ALL)
 
         start_time = time.time()  # Enregistre l'heure de début
         user_answer = None
@@ -25,26 +26,26 @@ def quiz_game():
             user_answer = input("Your answer: ").strip().lower()
             elapsed_time = time.time() - start_time  # Temps écoulé
             if elapsed_time > time_limit:
-                print("Time's up! You didn't answer in time.\n")
+                print(Fore.RED + "Time's up! You didn't answer in time.\n" + Style.RESET_ALL)
                 break  # Temps écoulé, on sort de la boucle
             if user_answer:  # Une réponse a été donnée
                 break
 
         if elapsed_time <= time_limit and user_answer == q['answer']:
-            print("Correct!\n")
+            print(Fore.GREEN + "Great job! Correct!\n" + Style.RESET_ALL)
             score += 1
         elif elapsed_time <= time_limit:
-            print(f"Wrong! The correct answer was: {q['answer']}\n")
+            print(Fore.RED + f"Oops, better luck next time! The correct answer was: {q['answer']}\n" + Style.RESET_ALL)
 
     # Résultat final
-    print(f"You finished the quiz! Your final score is: {score}/{len(questions)}")
+    print(Fore.YELLOW + f"You finished the quiz! Your final score is: {score}/{len(questions)}" + Style.RESET_ALL)
     
     if score == len(questions):
-        print("Congratulations! You answered all questions correctly!")
+        print(Fore.GREEN + "Congratulations! You answered all questions correctly!" + Style.RESET_ALL)
     elif score > 0:
-        print("Good job! Keep practicing to improve your score.")
+        print(Fore.BLUE + "Good job! Keep practicing to improve your score." + Style.RESET_ALL)
     else:
-        print("Better luck next time!")
+        print(Fore.RED + "Better luck next time!" + Style.RESET_ALL)
 
 # Lancer le jeu
 if __name__ == "__main__":
