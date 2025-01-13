@@ -22,20 +22,19 @@ def quiz_game():
         user_answer = None
 
         while True:
-            user_answer = input("Your answer: ").strip().lower()
             elapsed_time = time.time() - start_time  # Temps écoulé
-            if elapsed_time > time_limit:
+            if elapsed_time > time_limit:  # Vérifier si le temps est écoulé
                 print("Time's up! You didn't answer in time.\n")
-                break  # Temps écoulé, on sort de la boucle
+                break  # Sortir de la boucle si le temps est écoulé
+            user_answer = input("Your answer: ").strip().lower()
             if user_answer:  # Une réponse a été donnée
-                break
-
-        if elapsed_time <= time_limit and user_answer == q['answer']:
-            print("Correct!\n")
-            score += 1
-        elif elapsed_time <= time_limit:
-            print(f"Wrong! The correct answer was: {q['answer']}\n")
-
+                if elapsed_time <= time_limit:  # Vérification finale avant d'évaluer la réponse
+                    if user_answer == q['answer']:
+                        print("Correct!\n")
+                        score += 1
+                    else:
+                        print(f"Wrong! The correct answer was: {q['answer']}\n")
+                        break
     # Résultat final
     print(f"You finished the quiz! Your final score is: {score}/{len(questions)}")
     
